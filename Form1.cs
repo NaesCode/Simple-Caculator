@@ -16,7 +16,7 @@ namespace Simple_Caculator_Activity_1
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void buttons(object sender, EventArgs e)
@@ -164,7 +164,7 @@ namespace Simple_Caculator_Activity_1
                 }
                 else
                 {
-                    textBox1.Text = result.ToString();
+                    textBox1.Text = result.ToString() + " ";
                     textBox1.SelectionStart = textBox1.TextLength;
                 }
             }
@@ -177,19 +177,29 @@ namespace Simple_Caculator_Activity_1
         private void button19_Click(object sender, EventArgs e)
         {
             int caretPosition = textBox1.SelectionStart;
-            
+
             if (caretPosition > 0)
             {
-                textBox1.Text = textBox1.Text.Remove(caretPosition - 1, 1);
-                textBox1.SelectionStart = caretPosition - 1;
-                if(textBox1.SelectionStart == 0)
+                if (textBox1.Text[caretPosition - 1] == ' ')
                 {
-                    textBox1.Clear();
-                    textBox1.Text = "0 ";
-                    input = "\0";
+                    int lengthToRemove = (caretPosition >= 2) ? 2 : 1;
+
+                    textBox1.Text = textBox1.Text.Remove(caretPosition - lengthToRemove, lengthToRemove);
+                    textBox1.SelectionStart = caretPosition - lengthToRemove;
                 }
                 else
-                    input = textBox1.Text;
+                {
+                    textBox1.Text = textBox1.Text.Remove(caretPosition - 1, 1);
+                    textBox1.SelectionStart = caretPosition - 1;
+                }
+
+                input = textBox1.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                textBox1.Text = "0 ";
+                input = "\0";
             }
         }
 
@@ -205,7 +215,7 @@ namespace Simple_Caculator_Activity_1
             if (double.TryParse(textBox1.Text, out double number))
             {
                 number = -number;
-                textBox1.Text = number.ToString();
+                textBox1.Text = number.ToString() + " ";
                 input = textBox1.Text;
                 textBox1.SelectionStart = textBox1.TextLength;
             }
